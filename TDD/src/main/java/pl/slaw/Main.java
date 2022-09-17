@@ -1,4 +1,4 @@
-package org.example;
+package pl.slaw;
 
 public class Main {
     public static void main(String[] args) {
