@@ -2,6 +2,7 @@ package pl.slaw.account;
 
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -10,12 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AccountTest {
 
     @Test
-    void newAccountShouldntBeActiveAfterCreate() { // test zawsze jest voidem
+    void newAccountShouldntBeActiveAfterCreate() {
+        //given
         Account newAccount = new Account();
+        //then
         assertFalse(newAccount.isActive());
 
-        //tutaj podajemy odwrotnie, tzn na poczatku actual a potem expected
-        //przykład z matcherami - hamcrest
+        //przykład z matcherami - assertJ
+        assertThat(newAccount.isActive()).isFalse();
 
     }
 
@@ -28,8 +31,8 @@ class AccountTest {
         //then
         assertTrue(newAccount.isActive());
 
-        //wersja z matcherami - hamcrest
-
+        //wersja z matcherami - assertJ
+        assertThat(newAccount.isActive()).isTrue();
     }
 
 
@@ -42,8 +45,8 @@ class AccountTest {
         //then
         assertNull(address);
 
-        //wersja z matcherem - hamcrest
-
+        //wersja z matcherem - assertJ
+        assertThat(address).isNull();
     }
 
     @Test
@@ -57,8 +60,8 @@ class AccountTest {
         //then
         assertNotNull(defaultAddress);
 
-        //wersja z matcherem - hamcrest
-
+        //wersja z matcherem - assertJ
+        assertThat(defaultAddress).isNotNull();
     }
 
 }

@@ -3,13 +3,13 @@ package pl.slaw.meal;
 import org.junit.jupiter.api.Test;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 class MealTest {
 
-    //porównanie typów prymitywnych
     @Test
     void shouldReturnDiscountedPrice() {
         //given
@@ -21,8 +21,8 @@ class MealTest {
         //then
         assertEquals(28, discountedPrice);
 
-        //wersja z matcherem - hamcrest
-
+        //wersja z matcherem - assertJ
+        assertThat(discountedPrice).isEqualTo(28);
     }
 
     //porównanie obiektów, najpierw referencji
@@ -35,8 +35,8 @@ class MealTest {
         //then
         assertSame(meal1, meal2);
 
-        //z matcherem - hamcrest
-
+        //z matcherem - assertJ
+        assertThat(meal1).isSameAs(meal2);
     }
 
     @Test
@@ -48,8 +48,8 @@ class MealTest {
         //then
         assertNotSame(meal1, meal2);
 
-        //z matcherem -- not to wrapper - hamcrest
-
+        //z matcherem -- not to wrapper - assertJ
+        assertThat(meal1).isNotSameAs(meal2);
     }
 
 
@@ -61,6 +61,7 @@ class MealTest {
 
         //then
         assertEquals(meal1, meal2);
-//        assertEquals(meal1, meal2, "Check if arent equal");
+        //matcher assertJ
+        assertThat(meal1).isEqualTo(meal2);
     }
 }
