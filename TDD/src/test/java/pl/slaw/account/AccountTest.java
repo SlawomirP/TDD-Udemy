@@ -18,8 +18,9 @@ class AccountTest {
     void newAccountShouldntBeActiveAfterCreate() { // test zawsze jest voidem
         Account newAccount = new Account();
         assertFalse(newAccount.isActive());
+
         //tutaj podajemy odwrotnie, tzn na poczatku actual a potem expected
-        //przykład z matcherami
+        //przykład z matcherami - hamcrest
         assertThat(newAccount.isActive(),equalTo(false));
         assertThat(newAccount.isActive(),is(false));
     }
@@ -33,7 +34,7 @@ class AccountTest {
         //then
         assertTrue(newAccount.isActive());
 
-        //wersja z matcherami
+        //wersja z matcherami - hamcrest
         assertThat(newAccount.isActive(), equalTo(true));
         assertThat(newAccount.isActive(), is(true));
     }
@@ -47,7 +48,8 @@ class AccountTest {
         Address address = account.getDefaultDeliveryAddress();
         //then
         assertNull(address);
-        //wersja z matcherem
+
+        //wersja z matcherem - hamcrest
         assertThat(address, nullValue());
     }
 
@@ -61,7 +63,8 @@ class AccountTest {
         Address defaultAddress = account.getDefaultDeliveryAddress();
         //then
         assertNotNull(defaultAddress);
-        //wersja z matcherem
+
+        //wersja z matcherem - hamcrest
         assertThat(defaultAddress, notNullValue());
         assertThat(defaultAddress, is(notNullValue()));
     }

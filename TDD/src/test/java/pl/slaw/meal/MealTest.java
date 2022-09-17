@@ -2,6 +2,10 @@ package pl.slaw.meal;
 
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MealTest {
@@ -17,6 +21,9 @@ class MealTest {
 
         //then
         assertEquals(28, discountedPrice);
+
+        //wersja z matcherem - hamcrest
+        assertThat(discountedPrice,equalTo(28));
     }
 
     //porównanie obiektów, najpierw referencji
@@ -28,6 +35,9 @@ class MealTest {
 
         //then
         assertSame(meal1, meal2);
+
+        //z matcherem - hamcrest
+        assertThat(meal1,sameInstance(meal2));
     }
 
     @Test
@@ -38,11 +48,12 @@ class MealTest {
 
         //then
         assertNotSame(meal1, meal2);
+
+        //z matcherem -- not to wrapper - hamcrest
+        assertThat(meal1, not(sameInstance(meal2)));
     }
 
-    //porownanie samych obiektów, tutaj nalezy nadpisac metode equals poniewaz
-    //zostanie wykorzystana metoda standardowa z klasy object ktora porownuje
-    //referencje. Nadpisujemy met equals a zgodnie z konwencja rowniez hashcode
+
     @Test
     void twoMealsShouldBeEqualWhenPriceAndNameAreTheSame(){
         //given
