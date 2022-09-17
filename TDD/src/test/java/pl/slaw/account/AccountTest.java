@@ -2,11 +2,6 @@ package pl.slaw.account;
 
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -21,8 +16,7 @@ class AccountTest {
 
         //tutaj podajemy odwrotnie, tzn na poczatku actual a potem expected
         //przykład z matcherami - hamcrest
-        assertThat(newAccount.isActive(),equalTo(false));
-        assertThat(newAccount.isActive(),is(false));
+
     }
 
     @Test
@@ -35,8 +29,7 @@ class AccountTest {
         assertTrue(newAccount.isActive());
 
         //wersja z matcherami - hamcrest
-        assertThat(newAccount.isActive(), equalTo(true));
-        assertThat(newAccount.isActive(), is(true));
+
     }
 
 
@@ -50,7 +43,7 @@ class AccountTest {
         assertNull(address);
 
         //wersja z matcherem - hamcrest
-        assertThat(address, nullValue());
+
     }
 
     @Test
@@ -65,8 +58,7 @@ class AccountTest {
         assertNotNull(defaultAddress);
 
         //wersja z matcherem - hamcrest
-        assertThat(defaultAddress, notNullValue());
-        assertThat(defaultAddress, is(notNullValue()));
+
     }
 
 }

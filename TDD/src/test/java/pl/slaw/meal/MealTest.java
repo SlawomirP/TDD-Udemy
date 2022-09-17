@@ -2,11 +2,10 @@ package pl.slaw.meal;
 
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 class MealTest {
 
@@ -23,7 +22,7 @@ class MealTest {
         assertEquals(28, discountedPrice);
 
         //wersja z matcherem - hamcrest
-        assertThat(discountedPrice,equalTo(28));
+
     }
 
     //porównanie obiektów, najpierw referencji
@@ -37,7 +36,7 @@ class MealTest {
         assertSame(meal1, meal2);
 
         //z matcherem - hamcrest
-        assertThat(meal1,sameInstance(meal2));
+
     }
 
     @Test
@@ -50,7 +49,7 @@ class MealTest {
         assertNotSame(meal1, meal2);
 
         //z matcherem -- not to wrapper - hamcrest
-        assertThat(meal1, not(sameInstance(meal2)));
+
     }
 
 
