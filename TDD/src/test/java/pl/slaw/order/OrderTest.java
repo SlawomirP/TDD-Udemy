@@ -22,11 +22,11 @@ class OrderTest {
 
     //test demonstrujący pewną assercje
     @Test
-    void testAssertArrayEquals(){
+    void testAssertArrayEquals() {
 
         //given
-        int [] init1 = {1,2,3};
-        int [] init2 = {1,2,3};
+        int[] init1 = {1, 2, 3};
+        int[] init2 = {1, 2, 3};
 
         //then
         assertArrayEquals(init1, init2);
@@ -34,7 +34,7 @@ class OrderTest {
 
     //przetestowanie listy z klasy order
     @Test
-    void mealListShouldBeEmptyAfterCreationOfOrder(){
+    void mealListShouldBeEmptyAfterCreationOfOrder() {
 
         //given
         Order order = new Order();
@@ -51,7 +51,7 @@ class OrderTest {
 
     //test listy z dodanymi meal, sprawdzenie czy zwikszy sie rozmiar
     @Test
-    void addingMealToOrderShouldIncreaseOrderSize(){
+    void addingMealToOrderShouldIncreaseOrderSize() {
 
         //given
         Meal meal = new Meal(15, "Burger");
@@ -68,18 +68,17 @@ class OrderTest {
         assertThat(order.getMeals(), contains(meal));
 
         // komenda podobna do contain
-        assertThat(order.getMeals(),hasItem(meal));
+        assertThat(order.getMeals(), hasItem(meal));
 
         //sprawdzenie konkretnego parametru elementu z listy
         assertThat(order.getMeals().get(0).getPrice(), equalTo(15));
 
 //        assertThat(order.getMeals(), contains(meal2));
-
     }
 
     //testowanie usuwania elementow z kolekcji
     @Test
-    void removingMealFromOrderShouldDecreaseOrderSize(){
+    void removingMealFromOrderShouldDecreaseOrderSize() {
 
         //given
         Meal meal = new Meal(15, "Burger");
@@ -98,7 +97,7 @@ class OrderTest {
     //testowanie wiekszej ilosci elementow w kolekcji np
     //czy sa w dobrej kolejnosci
     @Test
-    void mealShouldBeInCorrectOrderAfterAddingThemToOrder(){
+    void mealShouldBeInCorrectOrderAfterAddingThemToOrder() {
 
         //given
         Meal meal1 = new Meal(15, "Burger");
@@ -114,25 +113,24 @@ class OrderTest {
 //        assertThat(order.getMeals(), contains(meal2, meal1)); - nie przejdzie
 
         //sprawdza czy poprostu zawiera, bez uwzglednienia kolejnosci
-        assertThat(order.getMeals(),containsInAnyOrder(meal1, meal2));
+        assertThat(order.getMeals(), containsInAnyOrder(meal1, meal2));
     }
 
     //porownanie dwoch kolekcji
     @Test
-    void testIfTwoMealListAreTheSame(){
+    void testIfTwoMealListAreTheSame() {
 
         //given
         Meal meal1 = new Meal(15, "Burger");
         Meal meal2 = new Meal(5, "Sandwich");
         Meal meal3 = new Meal(25, "Kebab");
 
-        List<Meal> meals1 = Arrays.asList(meal1,meal2);
-        List<Meal> meals2 = Arrays.asList(meal1,meal2);
+        List<Meal> meals1 = Arrays.asList(meal1, meal2);
+        List<Meal> meals2 = Arrays.asList(meal1, meal2);
 
         //then
-        assertThat(meals1,is(meals2)); //przejdzie jesli bedzie ta sama kolejnosc
-                                        // i ta sama zawartosc
-
+        assertThat(meals1, is(meals2)); //przejdzie jesli bedzie ta sama kolejnosc
+        // i ta sama zawartosc
 
     }
 
