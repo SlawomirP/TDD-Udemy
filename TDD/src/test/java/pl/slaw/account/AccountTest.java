@@ -2,7 +2,6 @@ package pl.slaw.account;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -18,7 +17,7 @@ class AccountTest {
         assertFalse(newAccount.isActive());
 
         //przykład z matcherami - assertJ
-        assertThat(newAccount.isActive()).isFalse();
+//        assertThat(newAccount.isActive()).isFalse();
 
     }
 
@@ -32,7 +31,7 @@ class AccountTest {
         assertTrue(newAccount.isActive());
 
         //wersja z matcherami - assertJ
-        assertThat(newAccount.isActive()).isTrue();
+//        assertThat(newAccount.isActive()).isTrue();
     }
 
 
@@ -46,7 +45,7 @@ class AccountTest {
         assertNull(address);
 
         //wersja z matcherem - assertJ
-        assertThat(address).isNull();
+//        assertThat(address).isNull();
     }
 
     @Test
@@ -61,7 +60,7 @@ class AccountTest {
         assertNotNull(defaultAddress);
 
         //wersja z matcherem - assertJ
-        assertThat(defaultAddress).isNotNull();
+//        assertThat(defaultAddress).isNotNull();
     }
 
 }

@@ -2,8 +2,6 @@ package pl.slaw.meal;
 
 import org.junit.jupiter.api.Test;
 
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -22,7 +20,7 @@ class MealTest {
         assertEquals(28, discountedPrice);
 
         //wersja z matcherem - assertJ
-        assertThat(discountedPrice).isEqualTo(28);
+//        assertThat(discountedPrice).isEqualTo(28);
     }
 
     //porównanie obiektów, najpierw referencji
@@ -36,7 +34,7 @@ class MealTest {
         assertSame(meal1, meal2);
 
         //z matcherem - assertJ
-        assertThat(meal1).isSameAs(meal2);
+//        assertThat(meal1).isSameAs(meal2);
     }
 
     @Test
@@ -49,7 +47,7 @@ class MealTest {
         assertNotSame(meal1, meal2);
 
         //z matcherem -- not to wrapper - assertJ
-        assertThat(meal1).isNotSameAs(meal2);
+//        assertThat(meal1).isNotSameAs(meal2);
     }
 
 
@@ -62,6 +60,6 @@ class MealTest {
         //then
         assertEquals(meal1, meal2);
         //matcher assertJ
-        assertThat(meal1).isEqualTo(meal2);
+//        assertThat(meal1).isEqualTo(meal2);
     }
 }
