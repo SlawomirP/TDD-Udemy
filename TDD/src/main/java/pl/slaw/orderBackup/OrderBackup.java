@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
@@ -31,7 +30,7 @@ public class OrderBackup {
         writer.close();
     }
 
-    void backup (Order order) throws IOException {
+    void backup(Order order) throws IOException {
         writer.append(order.toString());
     }
 }
