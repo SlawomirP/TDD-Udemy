@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MealTest {
 
@@ -25,7 +26,7 @@ class MealTest {
 
     //porównanie obiektów, najpierw referencji
     @Test
-    void referencesToTheSameObjectShouldBeEqual(){
+    void referencesToTheSameObjectShouldBeEqual() {
         //given
         Meal meal1 = new Meal(10);
         Meal meal2 = meal1;
@@ -38,7 +39,7 @@ class MealTest {
     }
 
     @Test
-    void referenceToTheDifferentObjectShouldNotBeEqual(){
+    void referenceToTheDifferentObjectShouldNotBeEqual() {
         //given
         Meal meal1 = new Meal(10);
         Meal meal2 = new Meal(20);
@@ -50,9 +51,8 @@ class MealTest {
 //        assertThat(meal1).isNotSameAs(meal2);
     }
 
-
     @Test
-    void twoMealsShouldBeEqualWhenPriceAndNameAreTheSame(){
+    void twoMealsShouldBeEqualWhenPriceAndNameAreTheSame() {
         //given
         Meal meal1 = new Meal(10, "Pizza");
         Meal meal2 = new Meal(10, "Pizza");
@@ -62,4 +62,20 @@ class MealTest {
         //matcher assertJ
 //        assertThat(meal1).isEqualTo(meal2);
     }
+
+    //testowanie wyjątków - sprawdzenie czy wyskoczy, warunkiem pojawienia sie
+    //wyjatku w tym przypadku jest cena upustu wieksza niz cena meal
+    @Test
+    void exceptionShouldBeThrownIfDiscountIsHigherThanThePrice() {
+
+        //given
+        Meal meal = new Meal(8, "Soup");
+
+        //when
+        //then - tutaj najpierw podajemy klase wyjątku a nastepnie metode ktora testujemy
+        assertThrows(IllegalArgumentException.class, () -> meal.getDiscountedPrice(40));
+
+    }
+
+
 }
