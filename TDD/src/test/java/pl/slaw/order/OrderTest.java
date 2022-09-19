@@ -1,5 +1,6 @@
 package pl.slaw.order;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.slaw.meal.Meal;
 
@@ -20,7 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class OrderTest {
 
-    //test demonstrujący pewną assercje
+    private Order order;
+    @BeforeEach // tzn tworzony przed kazdym testem
+    //metoda ktora stworzy obiekt Order order, usuwamy juz tworzenie
+    //tego obiektu z testów
+    void initialezeOrder(){
+        order = new Order();
+    }
+
     @Test
     void testAssertArrayEquals() {
 
@@ -32,13 +40,9 @@ class OrderTest {
         assertArrayEquals(init1, init2);
     }
 
-    //przetestowanie listy z klasy order
     @Test
     void mealListShouldBeEmptyAfterCreationOfOrder() {
-
         //given
-        Order order = new Order();
-
         //then - rożne opcje
         assertThat(order.getMeals(), empty());
 //        ------------------------------------
@@ -49,14 +53,12 @@ class OrderTest {
         assertThat(order.getMeals(), emptyCollectionOf(Meal.class));
     }
 
-    //test listy z dodanymi meal, sprawdzenie czy zwikszy sie rozmiar
     @Test
     void addingMealToOrderShouldIncreaseOrderSize() {
 
         //given
         Meal meal = new Meal(15, "Burger");
         Meal meal2 = new Meal(5, "Sandwich");
-        Order order = new Order();
 
         //when
         order.addMealToOrder(meal);
@@ -73,16 +75,13 @@ class OrderTest {
         //sprawdzenie konkretnego parametru elementu z listy
         assertThat(order.getMeals().get(0).getPrice(), equalTo(15));
 
-//        assertThat(order.getMeals(), contains(meal2));
     }
 
-    //testowanie usuwania elementow z kolekcji
     @Test
     void removingMealFromOrderShouldDecreaseOrderSize() {
 
         //given
         Meal meal = new Meal(15, "Burger");
-        Order order = new Order();
 
         //when
         order.addMealToOrder(meal);
@@ -94,15 +93,12 @@ class OrderTest {
         assertThat(order.getMeals(), not(contains(meal)));
     }
 
-    //testowanie wiekszej ilosci elementow w kolekcji np
-    //czy sa w dobrej kolejnosci
     @Test
     void mealShouldBeInCorrectOrderAfterAddingThemToOrder() {
 
         //given
         Meal meal1 = new Meal(15, "Burger");
         Meal meal2 = new Meal(5, "Sandwich");
-        Order order = new Order();
 
         //when
         order.addMealToOrder(meal1);
