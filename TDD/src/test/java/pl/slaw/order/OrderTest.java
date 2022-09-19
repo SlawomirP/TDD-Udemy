@@ -1,5 +1,6 @@
 package pl.slaw.order;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.slaw.meal.Meal;
@@ -26,12 +27,19 @@ class OrderTest {
     //metoda ktora stworzy obiekt Order order, usuwamy juz tworzenie
     //tego obiektu z testów
     void initialezeOrder(){
+        System.out.println("Iside @BeforeEach method");
         order = new Order();
+    }
+
+    @AfterEach //wywolywanie po kazdym tescie, tutaj czyszczenie listy
+    void cleanUp(){
+        System.out.println("Iside @AfterEach method");
+        order.cancel();
     }
 
     @Test
     void testAssertArrayEquals() {
-
+        System.out.println("Inside test");
         //given
         int[] init1 = {1, 2, 3};
         int[] init2 = {1, 2, 3};
