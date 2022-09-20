@@ -5,6 +5,17 @@ public class Account {
     private boolean active;
     private Address defaultDeliveryAddress;
 
+    //dodajemy nowy konstruktor z jednym parametrem i dodajemy tam warunek
+    //jezeli adres rozny od null to odrazu ma byc active
+    public Account(Address defaultDeliveryAddress) {
+        this.defaultDeliveryAddress = defaultDeliveryAddress;
+        if(defaultDeliveryAddress != null){
+            activate();
+        } else {
+            this.active = false;
+        }
+    }
+
     public Account() {
         this.active = false;
     }
