@@ -30,4 +30,7 @@ public class Cart {
         clearCart();
     }
 
+    public List<Order> getOrdersCart() {
+        return ordersCart;
+    }
 }
