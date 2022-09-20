@@ -9,6 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MealTest {
 
+    //TESTY SPARAMETRYZOWANE ---------------------------------------
+
+
+
+
+
+
     @Test
     void shouldReturnDiscountedPrice() {
         //given
@@ -76,6 +83,7 @@ class MealTest {
         assertThrows(IllegalArgumentException.class, () -> meal.getDiscountedPrice(40));
 
     }
+
 
 
 }
