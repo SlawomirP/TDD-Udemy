@@ -28,7 +28,6 @@ public class Cart {
         }
         System.out.println("Cart size: " + ordersCart.size());
         clearCart();
-
     }
 
 }
