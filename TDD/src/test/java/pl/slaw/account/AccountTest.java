@@ -1,11 +1,13 @@
 package pl.slaw.account;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 class AccountTest {
 
@@ -61,6 +63,26 @@ class AccountTest {
 
         //wersja z matcherem - assertJ
 //        assertThat(defaultAddress).isNotNull();
+    }
+
+    //test dla wyrazenia z warunkiem
+    @RepeatedTest(15) // spowoduje uruchomienie testu 5x
+    @Test
+    void newAccountWithNotNullAddressShouldBeActive(){
+
+        //given
+        Address address = new Address("Długa", "46/6");
+
+        //when
+        Account account = new Account(address);
+
+        //then - warunek: jezeli adres rozny od 0 to:
+                        // assertTrue i sprawdzenie isActive()
+        //w przypadku gdy pierwszy warunek nie bedzie spelniony
+        // to asercje sie nie uruchomią
+        assumingThat(address != null, () -> {
+            assertTrue(account.isActive());
+        });
     }
 
 }
