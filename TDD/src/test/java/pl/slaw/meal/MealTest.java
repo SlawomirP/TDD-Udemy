@@ -3,11 +3,14 @@ package pl.slaw.meal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -21,17 +24,25 @@ class MealTest {
     @ParameterizedTest
     @ValueSource(ints = {5, 10, 15, 19})
         // tu podajemy z ktorych bedziemy korzystac
-    // test zostanie wykonany dla 5,10,15,19
+        // test zostanie wykonany dla 5,10,15,19
     void mealPrizesShouldBeLowerThan20(int price) {
         assertThat(price, lessThan(20));
     }
 
     //metoda pomocnicza dajaca stream
-    private static Stream<Arguments> createMealsWithNameAndPrice(){
+    private static Stream<Arguments> createMealsWithNameAndPrice() {
         return Stream.of(
-                Arguments.of("Hamburger",10),
-                Arguments.of("CheeseHamburger",12)
+                Arguments.of("Hamburger", 10),
+                Arguments.of("CheeseHamburger", 12)
         );
+    }
+
+    @ParameterizedTest
+    @MethodSource("createMealsWithNameAndPrice")
+        // nazwa metody ktora zworci strumien argumentow
+    void burgerShouldHaveCorrectNameAndPrice(String name, int price) {
+        assertThat(name, containsString("burger"));
+        assertThat(price, greaterThanOrEqualTo(10));
     }
 
 
