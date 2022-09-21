@@ -6,12 +6,16 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -37,12 +41,25 @@ class MealTest {
         );
     }
 
+    //test dla wyniku dzialanie metody
     @ParameterizedTest
     @MethodSource("createMealsWithNameAndPrice")
         // nazwa metody ktora zworci strumien argumentow
     void burgerShouldHaveCorrectNameAndPrice(String name, int price) {
         assertThat(name, containsString("burger"));
         assertThat(price, greaterThanOrEqualTo(10));
+    }
+
+    //prostszy test dla wyniku dzialania metody
+    private static Stream<String> createCakeNames(){
+        List<String> cakeNames = Arrays.asList("Cheesecake", "Fruitcake", "Cupcake");
+        return cakeNames.stream();
+    }
+    @ParameterizedTest
+    @MethodSource("createCakeNames")
+    void cakeNamesShouldEndWithCakes(String name){
+        assertThat(name, notNullValue());
+        assertThat(name, endsWith("cake"));
     }
 
 
