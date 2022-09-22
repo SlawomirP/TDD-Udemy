@@ -7,6 +7,18 @@ public class Meal {
     private int price;
     private String name;
 
+    private int quantity;
+
+    public Meal(int price, int quantity,String name) {
+        this.price = price;
+        this.name = name;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
     public Meal(int price) {
         this.price = price;
     }
