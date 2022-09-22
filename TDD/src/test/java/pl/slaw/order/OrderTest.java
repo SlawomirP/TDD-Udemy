@@ -3,6 +3,8 @@ package pl.slaw.order;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import pl.slaw.BeforeAfterExtension;
 import pl.slaw.meal.Meal;
 
 import java.util.Arrays;
@@ -20,6 +22,9 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
+
+@ExtendWith(BeforeAfterExtension.class) // umieszczamy nad klasa lub metoda
+                                        //gdzie chcemy uzyc rozszerzenia
 class OrderTest {
 
     private Order order;

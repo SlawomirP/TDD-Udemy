@@ -1,10 +1,12 @@
 package pl.slaw.meal;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import pl.slaw.IAExceptionIgnoreExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -130,6 +132,18 @@ class MealTest {
         assertThrows(IllegalArgumentException.class, () -> meal.getDiscountedPrice(40));
 
     }
+
+    @ExtendWith(IAExceptionIgnoreExtension.class) // zaloguje zignorowany test przy 8
+    @ParameterizedTest
+    @ValueSource(ints = {1,3,5,8})
+    void mealPrizesShouldBeLowerThan10(int price) {
+        if (price > 5){  //warunek ktory bedzie ignorowany przez extension
+            throw new IllegalArgumentException();
+        }
+        assertThat(price, lessThan(20));
+    }
+
+
 
 
 }
