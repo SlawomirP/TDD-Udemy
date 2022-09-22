@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pl.slaw.meal.Meal;
 import pl.slaw.order.Order;
@@ -42,6 +43,7 @@ class OrderBackupTest {
         orderBackup.getWriter().append(" backed up");
     }
 
+    @Tag("fries")
     @Test // uruchomiony jako trzeci - wpisuje meal do pliku
     void backupOrderWithOneMeal() throws IOException {
 
