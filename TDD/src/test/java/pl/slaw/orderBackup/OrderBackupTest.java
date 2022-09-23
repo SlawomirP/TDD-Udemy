@@ -12,8 +12,6 @@ import pl.slaw.order.Order;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class OrderBackupTest {
 
     private static OrderBackup orderBackup; // obiekt do stworzenia
