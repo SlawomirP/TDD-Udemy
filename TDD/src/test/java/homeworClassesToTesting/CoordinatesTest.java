@@ -2,6 +2,8 @@ package homeworClassesToTesting;
 
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CoordinatesTest {
@@ -37,15 +39,23 @@ class CoordinatesTest {
         assertThrows(IllegalArgumentException.class, () -> new Coordinates(5, 101));
     }
 
+    //sprawdzenie utworzenia poprawnego obiektu
     @Test
     void shouldCreateObjectAfterInputCorrectData(){
         //given
-        Coordinates coordinates = new Coordinates(5, 5);
+        Coordinates coordinates = new Coordinates(5, 4);
 
         //when
         //then
         assertEquals(5, coordinates.getX());
-        assertEquals(5, coordinates.getY());
+        assertEquals(4, coordinates.getY());
+        assertThat(coordinates.getX(), equalTo(5));
+        assertThat(coordinates.getY(), equalTo(4));
+    }
+    //sprawdzenie czy obiekty z tymi samymi danymi sa takie same
+    @Test
+    void coordinatesShouldBeEqualsAfterInputTheSameData(){
+
     }
 
 }
