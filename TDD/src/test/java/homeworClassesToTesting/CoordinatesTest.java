@@ -10,21 +10,23 @@ class CoordinatesTest {
 
     //test na wyrzucenie wyjątku
     @Test
-    void shouldThrownExceptionIfXIsLowerThanZero(){
+    void shouldThrownExceptionIfXIsLowerThanZero() {
         //given
         //when
         //then
         assertThrows(IllegalArgumentException.class, () -> new Coordinates(-1, 5));
     }
+
     @Test
-    void shouldThrownExceptionIfYIsLowerThanZero(){
+    void shouldThrownExceptionIfYIsLowerThanZero() {
         //given
         //when
         //then
         assertThrows(IllegalArgumentException.class, () -> new Coordinates(5, -1));
     }
+
     @Test
-    void shouldThrownExceptionIfXIsHigherThanOneHundred(){
+    void shouldThrownExceptionIfXIsHigherThanOneHundred() {
         //given
         //when
         //then
@@ -32,7 +34,7 @@ class CoordinatesTest {
     }
 
     @Test
-    void shouldThrownExceptionIfYIsHigherThanOneHundred(){
+    void shouldThrownExceptionIfYIsHigherThanOneHundred() {
         //given
         //when
         //then
@@ -41,7 +43,7 @@ class CoordinatesTest {
 
     //sprawdzenie utworzenia poprawnego obiektu
     @Test
-    void shouldCreateObjectAfterInputCorrectData(){
+    void shouldCreateObjectAfterInputCorrectData() {
         //given
         Coordinates coordinates = new Coordinates(5, 4);
 
@@ -52,10 +54,17 @@ class CoordinatesTest {
         assertThat(coordinates.getX(), equalTo(5));
         assertThat(coordinates.getY(), equalTo(4));
     }
+
     //sprawdzenie czy obiekty z tymi samymi danymi sa takie same
     @Test
-    void coordinatesShouldBeEqualsAfterInputTheSameData(){
+    void coordinatesShouldBeEqualsAfterInputTheSameData() {
+        //given
+        Coordinates cord1 = new Coordinates(2,4);
+        Coordinates cord2 = new Coordinates(2,4);
 
+        //when
+        //then
+        assertEquals(cord1, cord2);
     }
 
 }
