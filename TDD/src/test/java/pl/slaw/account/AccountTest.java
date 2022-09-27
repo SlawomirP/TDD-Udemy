@@ -3,6 +3,8 @@ package pl.slaw.account;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -94,6 +96,18 @@ class AccountTest {
         //when
         //then
         assertThrows(IllegalArgumentException.class, () -> account.setEmail("wrong email"));
+    }
+
+    @Test
+    void validEmailShouldBeSet(){
+        //given
+        Account account = new Account();
+
+        //when
+        account.setEmail("slawek@gmail.pl");
+
+        //then
+        assertThat(account.getEmail(), is("slawek@gmail.pl"));
     }
 
 }

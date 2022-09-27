@@ -169,5 +169,19 @@ class OrderTest {
     }
 
 
+    @Test
+    void cancelingOrderShouldRemoveAllItemsFromMealsList(){
+        //given
+        Meal meal1 = new Meal(Integer.MAX_VALUE, "Burger");
+        Meal meal2 = new Meal(Integer.MAX_VALUE, "Sandwich");
+
+        //when
+        order.addMealToOrder(meal1);
+        order.addMealToOrder(meal2);
+        order.cancel();
+
+        //then
+        assertThat(order.getMeals().size(), is(0));
+    }
 
 }
