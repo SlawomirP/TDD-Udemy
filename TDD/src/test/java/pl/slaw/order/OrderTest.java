@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @ExtendWith(BeforeAfterExtension.class) // umieszczamy nad klasa lub metoda
@@ -142,5 +143,31 @@ class OrderTest {
         // i ta sama zawartosc
 
     }
+
+    @Test
+    void orderTotalPriceShouldNotExceedMaxIntValue(){
+        //given
+        Meal meal1 = new Meal(Integer.MAX_VALUE, "Burger");
+        Meal meal2 = new Meal(Integer.MAX_VALUE, "Sandwich");
+
+        //when
+        order.addMealToOrder(meal1);
+        order.addMealToOrder(meal2);
+
+        //then
+        assertThrows(IllegalStateException.class, () -> order.totalPrice());
+    }
+
+    @Test
+    void emptyOrderTotalPriceShouldEqualZero(){
+        //given
+        //Order created in @BeforeEach
+
+        //when
+        //then
+        assertThat(order.totalPrice(), is(0));
+    }
+
+
 
 }
