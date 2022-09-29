@@ -18,7 +18,7 @@ public class AccountServiceTest {
         //given - w tym przykladzie zamiast stuba bedzie mock
         //w metodzie mock w argumencie dajemy nazwe klasy klasy ktorej zachowanie symulujemy
         List<Account> accounts = prepareAccountData();// do tej zmiennej przypisujemy
-            //wynik dzialania metody priv
+        //wynik dzialania metody priv
 
         AccountRepository accountRepository = mock(AccountRepository.class);
         AccountService accountService = new AccountService(accountRepository);
@@ -60,7 +60,7 @@ public class AccountServiceTest {
     }
 
     //tutaj sa dane ktore podstawimy do metody wywolywanej z zmockowanej klasy
-    private List<Account> prepareAccountData(){
+    private List<Account> prepareAccountData() {
         Address address1 = new Address("Długa", "2E/2");
         Account account1 = new Account(address1);
 

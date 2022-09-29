@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Order {
 
+    private OrderStatus orderStatus;
+
     private List<Meal> meals= new ArrayList<>();
 
     //metoda dodajaca meal do listy
@@ -17,6 +19,14 @@ public class Order {
     //metoda usuwająca meal z listy
     public void removeMeal(Meal meal){
         this.meals.remove(meal);
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void changeOrderStatus(OrderStatus orderStatus){
+        this.orderStatus = orderStatus;
     }
 
     public List<Meal> getMeals() {
