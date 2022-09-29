@@ -10,7 +10,7 @@ public class CartService {
         this.cartHandler = cartHandler;
     }
 
-    //zwracanie koszyka
+    //zwracanie koszyka - to bedzie testowane !!!
     Cart processCart(Cart cart) {
         if (cartHandler.canHandleCart(cart)) {
             cartHandler.sendToPrepare(cart);
