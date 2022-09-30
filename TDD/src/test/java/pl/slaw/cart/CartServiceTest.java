@@ -12,15 +12,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willAnswer;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class CartServiceTest {
 
@@ -246,6 +253,125 @@ class CartServiceTest {
 
         assertThat(resultCart.getOrdersCart(), hasSize(1));
         assertThat(resultCart.getOrdersCart().get(0).getOrderStatus(), equalTo(OrderStatus.PREPARING));
+    }
+
+    // METODA: doNothing() -------------------------------------------------------------------------------
+    @Test
+    void shouldDoNothingWhenProcessCart() {
+
+        //given
+        Order order = new Order();
+        Cart cart = new Cart();
+        cart.addOrderToCart(order);
+
+        CartHandler cartHandler = mock(CartHandler.class);
+        CartService cartService= new CartService(cartHandler);
+            //jezeli met canHandleCart zwraca true to:
+//        if (cartHandler.canHandleCart(cart)) {
+//            cartHandler.sendToPrepare(cart); <-- to zostanie wywolane
+                // ta metoda jest typu void, i nic nie robi
+        given(cartHandler.canHandleCart(cart)).willReturn(true);
+
+        //sprawdzimy jej dzialanie - to sie przydaje jezeli np metoda bedzie wykonywana kilka razy
+        // i za pierwszym razem zeby nic nie zrobila a np za drugim zeby rzucila wyjatek
+        doNothing().when(cartHandler).sendToPrepare(cart);
+            //lub BDD
+        willDoNothing().given(cartHandler).sendToPrepare(cart);
+
+        // jezeli wywolana np2 razy to:
+        //za I razem nic nie zrobi, za II razem wywali wyjatek-- reszta tak samo
+        willDoNothing().willThrow(IllegalStateException.class).given(cartHandler).sendToPrepare(cart);
+
+//        willDoNothing().willDoNothing().willDoNothing().willThrow() ..........
+
+
+        //when
+        Cart resultCart= cartService.processCart(cart);
+
+        //then
+        then(cartHandler).should().sendToPrepare(cart);
+
+        assertThat(resultCart.getOrdersCart(), hasSize(1));
+        assertThat(resultCart.getOrdersCart().get(0).getOrderStatus(), equalTo(OrderStatus.PREPARING));
+    }
+
+    // metoda doAnswer - gdy chcemy cos zrobic z argumentami metody wywolywanej na mocku-----------------
+    @Test
+    void shouldAnswerWhenProcessCart() {
+
+        //given
+        Order order = new Order();
+        Cart cart = new Cart();
+        cart.addOrderToCart(order);
+
+        CartHandler cartHandler = mock(CartHandler.class);
+        CartService cartService= new CartService(cartHandler);
+
+                //doAnswer, tu mozemy dac lambe a metoda canHandleCart zwraca booleana
+        doAnswer(invocationOnMock -> {
+            //instancja Cart ktora bedzie argumentem
+            Cart argumentCart = invocationOnMock.getArgument(0); // argument pierwszy
+            argumentCart.clearCart(); // wyczyszczenie koszyka
+            return true;
+
+            // po kropce dopiero dajemy wlasciwe wywolanie metody
+        }).when(cartHandler).canHandleCart(cart); // po wywolaniu tego dpojawi sie nasza
+                //odpowiedz ta z góry
+
+        // alternatywny zapis
+        when(cartHandler.canHandleCart(cart)).then(i -> {
+            Cart argumentCart = i.getArgument(0); // argument pierwszy
+            argumentCart.clearCart(); // wyczyszczenie koszyka
+            return true;
+        });
+
+        //alternatywny zapis BDD
+        willAnswer(invocationOnMock -> {
+            Cart argumentCart = invocationOnMock.getArgument(0);
+            argumentCart.clearCart();
+            return true;
+            // po kropce dopiero dajemy wlasciwe wywolanie metody
+        }).given(cartHandler).canHandleCart(cart);
+
+        //alternatywny krótszy zapis
+        given(cartHandler.canHandleCart(cart)).will(i -> {
+            Cart argumentCart = i.getArgument(0); // argument pierwszy
+            argumentCart.clearCart(); // wyczyszczenie koszyka
+            return true;
+        });
+
+        //when
+        Cart resultCart= cartService.processCart(cart); // pusty koszyk
+
+        //then
+        then(cartHandler).should().sendToPrepare(cart);
+        assertThat(resultCart.getOrdersCart().size(), equalTo(0));
+
+    }
+
+    //TESTOWANIE DOMYŚLNYCH METOD W INTERFEJSACH ------------------------------------
+    @Test
+    void deliveryShouldBeFree(){
+
+        //given
+        Cart cart = new Cart();
+        cart.addOrderToCart(new Order());
+        cart.addOrderToCart(new Order());
+        cart.addOrderToCart(new Order());
+
+            // robiąc moka, trzeba zmokowac tez metody na nim uzywane
+        CartHandler cartHandler = mock(CartHandler.class);
+            // uzycie prawdziwej metody na mocku
+        given(cartHandler.isDeliveryFree(cart)).willCallRealMethod();
+            //alternatywa z BDD
+        doCallRealMethod().when(cartHandler).isDeliveryFree(cart);
+
+        //when
+        boolean isDeliveryFree = cartHandler.isDeliveryFree(cart);
+
+        //then
+        assertTrue(isDeliveryFree); // cartHandler to mock i skoro mamy
+                //wywolac na nim prawdziwa metode to trzeba uzyc willCallRealMethod
     }
 
 }

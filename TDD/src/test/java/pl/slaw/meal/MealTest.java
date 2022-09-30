@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.notNullValue;
@@ -30,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 class MealTest {
 
@@ -201,6 +204,30 @@ class MealTest {
         }
         assertThat(price, lessThan(20));
     }
+
+    //METODA DO CALL REAL METHOD-----------------------------------------
+    // na obiekcie mock mozna wywolac prawdziwą metodę
+    @Test
+    void testMealSumPrice(){
+
+        //given
+        Meal meal = mock(Meal.class);
+
+            // dwie metody beda zmockowane a trzecia bedzie prawdziwa
+        given(meal.getPrice()).willReturn(15);
+        given(meal.getQuantity()).willReturn(3);
+            //ustawienie zeby na mocku wykorzystac pradziwa metode
+        given(meal.sumPrice()).willCallRealMethod();
+
+        //when
+        int result = meal.sumPrice();
+
+        //then
+        assertThat(result, equalTo(45)); // jezeli wywolamy to bez willCallRealMethod
+                                                // to nie przejdzie
+
+    }
+
 
 
 
