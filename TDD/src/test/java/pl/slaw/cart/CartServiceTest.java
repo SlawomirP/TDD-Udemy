@@ -2,6 +2,7 @@ package pl.slaw.cart;
 
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 import pl.slaw.order.Order;
@@ -12,7 +13,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -198,6 +198,54 @@ class CartServiceTest {
         //when
         //then
         assertThrows(IllegalStateException.class, () -> cartService.processCart(cart));
+    }
+
+    //CHEMY SPRAWDZIC JAKI ARGUMENT JEST PRZESYŁANY DO METODY sendToPrepare()
+    //zakladamy ze nie wiemy ze jest to obiekt cart
+    //JEZELI METODA MIALABY 2 ARGUMENTY TO TRZEBA STWORZYC CAPTORA DLA KAZDEGO ARGUMENTU
+    @Test
+    void processCartShouldSendToPrepareWithArgumentCaptor() {
+
+        //given
+        Order order = new Order();
+        Cart cart = new Cart();
+        cart.addOrderToCart(order);
+
+        CartHandler cartHandler = mock(CartHandler.class);
+        CartService cartService= new CartService(cartHandler);
+
+        //deklarujemy ArgumentCaptor'a
+        //           typ argumentu do przechwycenia <Cart>
+        ArgumentCaptor<Cart> argumentCaptor = ArgumentCaptor.forClass(Cart.class);
+            //przechwycenie argumentu nastepuje w momencie weryfikacji metody
+            //czylie w -> then -> potem should()
+
+        given(cartHandler.canHandleCart(cart)).willReturn(true);
+
+        //when
+        Cart resultCart= cartService.processCart(cart);
+
+        //then - tutad dajemy obiekt argumentCaptura (zgodnie z BDD)
+        //czyli kiedy wywola sie metoda sendToPrepare nastapi przechwycenie
+        then(cartHandler).should().sendToPrepare(argumentCaptor.capture());
+
+        //drugi przyklad z metodą verify
+        verify(cartHandler). sendToPrepare(argumentCaptor.capture());
+
+        //aby sprawdzic przechwycenie korzystamy z assercji
+        assertThat(argumentCaptor.getValue().getOrdersCart().size(), equalTo(1));
+
+        //JEZELI MIALABY BYC 2X WYWOLANA
+//        if (cartHandler.canHandleCart(cart)) {
+//            cartHandler.sendToPrepare(cart);
+//            cartHandler.sendToPrepare(cart);
+//        to
+//        then(cartHandler).should(times(2)).sendToPrepare(argumentCaptor.capture());
+//        assertThat(argumentCaptor.getAllValues().size(), equalTo(2));
+//        assertThat(argumentCaptor.getAllValues().get(0).getOrders().size(), equalTo(2));
+
+        assertThat(resultCart.getOrdersCart(), hasSize(1));
+        assertThat(resultCart.getOrdersCart().get(0).getOrderStatus(), equalTo(OrderStatus.PREPARING));
     }
 
 }
