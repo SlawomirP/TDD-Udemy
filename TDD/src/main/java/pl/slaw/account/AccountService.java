@@ -17,4 +17,8 @@ public class AccountService {
                 .filter(Account::isActive) // wyciagniecie aktywnych kont
                 .collect(Collectors.toList());// upakowanie tego w liste
     }
+
+    List<String> findByName(String name) {
+        return accountRepository.getByName(name);
+    }
 }

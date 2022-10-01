@@ -2,9 +2,16 @@ package pl.slaw.cart;
 
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InOrder;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import pl.slaw.order.Order;
 import pl.slaw.order.OrderStatus;
 
@@ -28,9 +35,25 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+@MockitoSettings(strictness = Strictness.STRICT_STUBS) // sprawdzenie sposobu
+                        //korzystania z mocków i stabów, szybsze i lepse wykrycie błędów
+@ExtendWith(MockitoExtension.class) // adnotacja do uzywania adn mockito
 
 class CartServiceTest {
 
+    @InjectMocks // do określenia w której klasie beda znajdowaly sie jakies zaleznosci
+                // ktore w testach beda zamieniane w mocki i ich dzialanie bedzie programowane
+                //lub weryfikowane
+
+    private CartService cartService; // tu okreslamy klase ktora bedzie wykorzystywala zaleznosci ktore beda
+                                    //mockowane
+    @Mock // okresla dany obiekt mokowy
+    private CartHandler cartHandler; // mockowana klasa
+    @Captor // adnotacja dla captora - mozna usunac z testu
+    private ArgumentCaptor<Cart> argumentCaptor;
+
+    // dzieki tym adnotacjom mozemy ze wszystkich testów usunac tworzenie instancji obiektow
+//        cartService i cartHandler
     @Test
     void processCartShouldSendToPrepare() {
 
@@ -39,8 +62,8 @@ class CartServiceTest {
         Cart cart = new Cart();
         cart.addOrderToCart(order);
 
-        CartHandler cartHandler = mock(CartHandler.class);
-        CartService cartService= new CartService(cartHandler);
+//        CartHandler cartHandler = mock(CartHandler.class);
+//        CartService cartService= new CartService(cartHandler);
 
         //           ta metoda                  zwroci        true
         given(cartHandler.canHandleCart(cart)).willReturn(true);
@@ -76,8 +99,8 @@ class CartServiceTest {
         Cart cart = new Cart();
         cart.addOrderToCart(order);
 
-        CartHandler cartHandler = mock(CartHandler.class);
-        CartService cartService= new CartService(cartHandler);
+//        CartHandler cartHandler = mock(CartHandler.class);
+//        CartService cartService= new CartService(cartHandler);
 
         //           ta metoda                  zwroci        false
         given(cartHandler.canHandleCart(cart)).willReturn(false);
@@ -106,8 +129,8 @@ class CartServiceTest {
         Cart cart = new Cart();
         cart.addOrderToCart(order);
 
-        CartHandler cartHandler = mock(CartHandler.class);
-        CartService cartService= new CartService(cartHandler);
+//        CartHandler cartHandler = mock(CartHandler.class);
+//        CartService cartService= new CartService(cartHandler);
 
         //teraz przypadek gdy nie wiemy co zostanie wywolane na cartHandleCart
         // zamiast cart dajemy matcher z mockito any()
@@ -145,8 +168,8 @@ class CartServiceTest {
         Cart cart = new Cart();
         cart.addOrderToCart(order);
 
-        CartHandler cartHandler = mock(CartHandler.class);
-        CartService cartService= new CartService(cartHandler);
+//        CartHandler cartHandler = mock(CartHandler.class);
+//        CartService cartService= new CartService(cartHandler);
 
         // willReturn moze zwracac wiele wartosci
         //jezeli cartHandler zostanie wywolany wiecej razy to w willReturn
@@ -170,8 +193,8 @@ class CartServiceTest {
         Cart cart = new Cart();
         cart.addOrderToCart(order);
 
-        CartHandler cartHandler = mock(CartHandler.class);
-        CartService cartService= new CartService(cartHandler);
+//        CartHandler cartHandler = mock(CartHandler.class);
+//        CartService cartService= new CartService(cartHandler);
 
         //tutaj mozna skorzystac z lamby, to w srodku powinno zwracac booleana
         //metoda wywolana na moku zwroci true tylko jezeli przekazany tam argument cart bedzie mial liste ktora ma
@@ -197,8 +220,8 @@ class CartServiceTest {
         Cart cart = new Cart();
         cart.addOrderToCart(order);
 
-        CartHandler cartHandler = mock(CartHandler.class);
-        CartService cartService= new CartService(cartHandler);
+//        CartHandler cartHandler = mock(CartHandler.class);
+//        CartService cartService= new CartService(cartHandler);
 
         given(cartHandler.canHandleCart(any(Cart.class))).willThrow(IllegalStateException.class);
 
@@ -218,12 +241,12 @@ class CartServiceTest {
         Cart cart = new Cart();
         cart.addOrderToCart(order);
 
-        CartHandler cartHandler = mock(CartHandler.class);
-        CartService cartService= new CartService(cartHandler);
+//        CartHandler cartHandler = mock(CartHandler.class);
+//        CartService cartService= new CartService(cartHandler);
 
         //deklarujemy ArgumentCaptor'a
         //           typ argumentu do przechwycenia <Cart>
-        ArgumentCaptor<Cart> argumentCaptor = ArgumentCaptor.forClass(Cart.class);
+//        ArgumentCaptor<Cart> argumentCaptor = ArgumentCaptor.forClass(Cart.class);
             //przechwycenie argumentu nastepuje w momencie weryfikacji metody
             //czylie w -> then -> potem should()
 
@@ -264,8 +287,8 @@ class CartServiceTest {
         Cart cart = new Cart();
         cart.addOrderToCart(order);
 
-        CartHandler cartHandler = mock(CartHandler.class);
-        CartService cartService= new CartService(cartHandler);
+//        CartHandler cartHandler = mock(CartHandler.class);
+//        CartService cartService= new CartService(cartHandler);
             //jezeli met canHandleCart zwraca true to:
 //        if (cartHandler.canHandleCart(cart)) {
 //            cartHandler.sendToPrepare(cart); <-- to zostanie wywolane
@@ -274,9 +297,9 @@ class CartServiceTest {
 
         //sprawdzimy jej dzialanie - to sie przydaje jezeli np metoda bedzie wykonywana kilka razy
         // i za pierwszym razem zeby nic nie zrobila a np za drugim zeby rzucila wyjatek
-        doNothing().when(cartHandler).sendToPrepare(cart);
+//        doNothing().when(cartHandler).sendToPrepare(cart);
             //lub BDD
-        willDoNothing().given(cartHandler).sendToPrepare(cart);
+//        willDoNothing().given(cartHandler).sendToPrepare(cart);
 
         // jezeli wywolana np2 razy to:
         //za I razem nic nie zrobi, za II razem wywali wyjatek-- reszta tak samo
@@ -304,26 +327,26 @@ class CartServiceTest {
         Cart cart = new Cart();
         cart.addOrderToCart(order);
 
-        CartHandler cartHandler = mock(CartHandler.class);
-        CartService cartService= new CartService(cartHandler);
+//        CartHandler cartHandler = mock(CartHandler.class);
+//        CartService cartService= new CartService(cartHandler);
 
                 //doAnswer, tu mozemy dac lambe a metoda canHandleCart zwraca booleana
-        doAnswer(invocationOnMock -> {
-            //instancja Cart ktora bedzie argumentem
-            Cart argumentCart = invocationOnMock.getArgument(0); // argument pierwszy
-            argumentCart.clearCart(); // wyczyszczenie koszyka
-            return true;
-
-            // po kropce dopiero dajemy wlasciwe wywolanie metody
-        }).when(cartHandler).canHandleCart(cart); // po wywolaniu tego dpojawi sie nasza
-                //odpowiedz ta z góry
+//        doAnswer(invocationOnMock -> {
+//            //instancja Cart ktora bedzie argumentem
+//            Cart argumentCart = invocationOnMock.getArgument(0); // argument pierwszy
+//            argumentCart.clearCart(); // wyczyszczenie koszyka
+//            return true;
+//
+//            // po kropce dopiero dajemy wlasciwe wywolanie metody
+//        }).when(cartHandler).canHandleCart(cart); // po wywolaniu tego dpojawi sie nasza
+//                //odpowiedz ta z góry
 
         // alternatywny zapis
-        when(cartHandler.canHandleCart(cart)).then(i -> {
-            Cart argumentCart = i.getArgument(0); // argument pierwszy
-            argumentCart.clearCart(); // wyczyszczenie koszyka
-            return true;
-        });
+//        when(cartHandler.canHandleCart(cart)).then(i -> {
+//            Cart argumentCart = i.getArgument(0); // argument pierwszy
+//            argumentCart.clearCart(); // wyczyszczenie koszyka
+//            return true;
+//        });
 
         //alternatywny zapis BDD
         willAnswer(invocationOnMock -> {
@@ -360,9 +383,9 @@ class CartServiceTest {
         cart.addOrderToCart(new Order());
 
             // robiąc moka, trzeba zmokowac tez metody na nim uzywane
-        CartHandler cartHandler = mock(CartHandler.class);
+//        CartHandler cartHandler = mock(CartHandler.class);
             // uzycie prawdziwej metody na mocku
-        given(cartHandler.isDeliveryFree(cart)).willCallRealMethod();
+//        given(cartHandler.isDeliveryFree(cart)).willCallRealMethod();
             //alternatywa z BDD
         doCallRealMethod().when(cartHandler).isDeliveryFree(cart);
 
