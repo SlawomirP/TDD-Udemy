@@ -10,6 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import pl.slaw.IAExceptionIgnoreExtension;
 import pl.slaw.order.Order;
 
@@ -32,7 +34,9 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 
 class MealTest {
 
@@ -228,6 +232,37 @@ class MealTest {
 
     }
 
+    //test z uzyciem obiektu Spy
+    @Test
+    void testMealSumPriceWitchSpy(){
+
+        //given - utworzenie nowego obiektu zamiast mocka, spy bedzie chcial utworzyć
+                // obiekt klasy Meal korzystajac z konstruktora bezargumentowego
+        Meal meal = spy(Meal.class);
+
+                //jezeli chcemy skorzystac z konstruktora z argumentami to:
+        Meal mealArg = new Meal(14,4,"Burito");
+        Meal mealSpy = spy(mealArg); // i działamy na tym
+//------------------------
+            //można też adnotacjami pod nazwa klasy i potem uzywac mealSpy
+//        @Spy
+//                private Meal mealSpy;
+            //mozna tez dac adnotacje nad testem
+//        @ExtendWith(MockitoExtension.class)
+//------------------------
+        // nie mozemy wykorzystac metod given, willReturn na prawdziwym obiekcie
+        // ale mozna tego uzyc na obiekcie Spy
+        given(meal.getPrice()).willReturn(15); // metoda mokowana - zwraca co chcemy
+        given(meal.getQuantity()).willReturn(3); // metoda mokowana - zwraca co chcemy
+
+        //when
+        int result = meal.sumPrice(); // metoda prawdziwa
+
+        //then
+        then(meal).should().getPrice(); // sprawdzenie wywolania metody
+        then(meal).should().getQuantity(); // sprawdzenie wywolania metody
+        assertThat(result, equalTo(45));
+    }
 
 
 

@@ -9,7 +9,10 @@ public class Meal {
 
     private int quantity;
 
-    public Meal(int price, int quantity,String name) {
+    public Meal() {
+    }
+
+    public Meal(int price, int quantity, String name) {
         this.price = price;
         this.name = name;
         this.quantity = quantity;

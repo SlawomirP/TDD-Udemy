@@ -84,7 +84,7 @@ public class AccountServiceTest {
         AccountRepository accountRepository = mock(AccountRepository.class);
         AccountService accountService = new AccountService(accountRepository);
 
-        given(accountRepository.getByName("dawi")).willReturn(Collections.singletonList("nowak"));
+        given(accountRepository.getByName("dawid")).willReturn(Collections.singletonList("nowak"));
 
         //when
         List<String> accountNames = accountService.findByName("dawid");
