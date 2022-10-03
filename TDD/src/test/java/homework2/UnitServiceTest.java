@@ -2,34 +2,21 @@ package homework2;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class) // dodaję mozliwosc wstawiania adnotacji mockito
 class UnitServiceTest {
@@ -85,6 +72,7 @@ class UnitServiceTest {
         verify(cargoRepository, atLeastOnce()).findCargoByName("LNG"); // sprawdzenie czy na mocku przynajmniej raz
                                                                         // zostanie wywolana metoda findCargoByName
 
+        assertThat(u1.getCargo(), hasSize(0)); // sprawdzenie czy nic nie zostalo dodane do listy
     }
 
 
