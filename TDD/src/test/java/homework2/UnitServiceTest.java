@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
@@ -69,14 +70,21 @@ class UnitServiceTest {
     void addCargoByNameShouldThrowExceptionWhenIsUnableToFindObject(){
 
         //given
-        Unit u1 = new Unit( new Coordinates(1,1),10,5);
-        given(cargoRepository.findCargoByName("LNG")).willReturn(Optional.empty());
+        Unit u1 = new Unit( new Coordinates(1,1),10,5); // obiekt, argument metody
+        given(cargoRepository.findCargoByName("LNG")).willReturn(Optional.empty()); // jezeli na mocku wywolam
+                            //metode findCargoByName to ona zwroci empty()
+
 
         //when
-        unitService.addCargoByName(u1, "LNG");
-
         //then
-        assertThrows()
+        assertThrows(NoSuchElementException.class, () -> unitService.addCargoByName(u1 , "LNG")); // zakladam ze
+                        //wyrzuci taki wyjatek, jezeli na obiekcie klasy mockowanej uzyje metody z takimi parametrami
+
+        then(cargoRepository).should().findCargoByName("LNG"); // sprawdzenie czy metoda wykona sie na mocku
+
+        verify(cargoRepository, atLeastOnce()).findCargoByName("LNG"); // sprawdzenie czy na mocku przynajmniej raz
+                                                                        // zostanie wywolana metoda findCargoByName
+
     }
 
 
