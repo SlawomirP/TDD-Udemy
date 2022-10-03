@@ -12,9 +12,9 @@ public class UnitService {
 
         Optional<Cargo> cargo = cargoRepository.findCargoByName(name);
 
-        if (cargo.isPresent()) {
-            unit.loadCargo(cargo.get());
-        } else {
+        if (cargo.isPresent()) { //jezeli cos tu jest
+            unit.loadCargo(cargo.get()); // uruchomi na tym metode dodawania
+        } else { // jezeli nie to wywali wyjatek
             throw new NoSuchElementException("Unable to find cargo");
         }
     }

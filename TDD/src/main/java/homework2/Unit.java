@@ -91,7 +91,7 @@ public class Unit {
         return this.coordinates;
     }
 
-    List<Cargo> getCargo() {
+     public List<Cargo> getCargo() {
         return this.cargo;
     }
 }
