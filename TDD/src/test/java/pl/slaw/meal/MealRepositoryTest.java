@@ -115,13 +115,33 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
         //given
 //        MealRepository mealRepository = new MealRepository();
         Meal meal = new Meal(10, "Pizza");
+        Meal meal2 = new Meal(10, "Pi"); // ten obiekt nie powienien byc przpuszczony
         mealRepository.add(meal);
+        mealRepository.add(meal2);
 
         //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
-        List<Meal> result = mealRepository.findByName("Pizza");
+        List<Meal> result = mealRepository.findByName("Pizza", true);
 
         //then
         assertThat(result.size(), is(1));
+    }
+
+    @Test
+    void shouldBeAbleFindMealByStartingLetters() {
+
+        //given
+//        MealRepository mealRepository = new MealRepository();
+        Meal meal = new Meal(10, "Pizza");
+        Meal meal2 = new Meal(10, "Pi"); // ten obiekt nie powienien byc przpuszczony
+        mealRepository.add(meal);
+        mealRepository.add(meal2);
+
+        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
+        List<Meal> result = mealRepository.findByName("P", false);
+
+        //then
+        assertThat(result.size(), is(2));
+
     }
 
 }

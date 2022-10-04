@@ -20,10 +20,16 @@ public class MealRepository {
         meals.remove(meal);
     }
 
-    public List<Meal> findByName(String name) {
-        return meals.stream()
+    public List<Meal> findByName(String name, boolean exactMatch) {
+        if(exactMatch){return meals.stream()
                 .filter(meal -> meal.getName().equals(name))
                 .collect(Collectors.toList());
+        } else {
+            return meals.stream()
+                    .filter(meal -> meal.getName().startsWith(name))
+                    .collect(Collectors.toList());
+        }
+
     }
 
     public List<Meal> findByPrice(int mealPrice) {
