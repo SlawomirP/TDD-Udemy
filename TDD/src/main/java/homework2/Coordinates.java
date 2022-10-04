@@ -8,15 +8,12 @@ public class Coordinates {
     private int y;
 
     Coordinates(int x, int y) {
-
         if (x < 0 || y < 0) {
             throw new IllegalArgumentException("Position can not be less than 0");
         }
-
         if (x > 100 || y > 100) {
             throw new IllegalArgumentException("Position can not be more than 100");
         }
-
         this.x = x;
         this.y = y;
     }
