@@ -77,20 +77,20 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
     //dodajemy brakujaca metode -- green test
     //w then dajemy asercje -- red test
     // uzupelniamy metode -- green test
-    @Test
-    void shouldBeAbleToFindMealByName() {
-
-        //given
-//        MealRepository mealRepository = new MealRepository();
-        Meal meal = new Meal(10, "Pizza");
-        mealRepository.add(meal);
-
-        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
-        List<Meal> result = mealRepository.findByName("Pizza");
-
-        //then
-        assertThat(result.size(), is(1));
-    }
+//    @Test
+//    void shouldBeAbleToFindMealByName() {
+//
+//        //given
+////        MealRepository mealRepository = new MealRepository();
+//        Meal meal = new Meal(10, "Pizza");
+//        mealRepository.add(meal);
+//
+//        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
+//        List<Meal> result = mealRepository.findByName("Pizza");
+//
+//        //then
+//        assertThat(result.size(), is(1));
+//    }
 
     //znajdowanie posiłku po cenie
     @Test
@@ -107,5 +107,21 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
         assertThat(result.size(), is(1));
     }
 
+    //rozszerzanie funkcjonalności - test do wyszukiwania po nazwie, dodamy dodatkowy
+    //parametr do metody
+    @Test
+    void shouldBeAbleToFindMealByExactName() {
+
+        //given
+//        MealRepository mealRepository = new MealRepository();
+        Meal meal = new Meal(10, "Pizza");
+        mealRepository.add(meal);
+
+        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
+        List<Meal> result = mealRepository.findByName("Pizza");
+
+        //then
+        assertThat(result.size(), is(1));
+    }
 
 }
