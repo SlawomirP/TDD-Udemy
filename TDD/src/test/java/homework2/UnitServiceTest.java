@@ -29,52 +29,71 @@ class UnitServiceTest {
     private UnitRepository unitRepository; // mock obiekt uzywany w testach
 
     @Test
-    void addCargoByNameMethodWillAddCargo(){
+    void addCargoByNameMethodWillAddCargo() {
 
         //given
-        Unit u1 = new Unit(new Coordinates(0,0), 3,10); // obiekt potrzebny w testowanej klasie
+        Unit u1 = new Unit(new Coordinates(0, 0), 3, 10); // obiekt potrzebny w testowanej klasie
         Cargo c1 = new Cargo("LNG", 5); // to bedzie obiekt symulujący wynik z optionala
         given(cargoRepository.findCargoByName("LNG")).willReturn(Optional.of(c1)); //jeżeli wywołana zostanie metoda
-                //cargoRepository.findCargoByName z Stringiem "LNG" to metoda zwróci obiekt c1
+        //cargoRepository.findCargoByName z Stringiem "LNG" to metoda zwróci obiekt c1
 
         //when
         unitService.addCargoByName(u1, "LNG");
 
         //then
         verify(cargoRepository).findCargoByName("LNG"); // sprawdzenie czy na mocku cargoRepository zostanie wywolana
-                                                        // metoda findCargoByName
+        // metoda findCargoByName
 
         verify(cargoRepository, atLeastOnce()).findCargoByName("LNG"); // sprawdzenie czy na mocku przynajmniej raz
-                                                                    // zostanie wywolana metoda findCargoByName
+        // zostanie wywolana metoda findCargoByName
 
         assertThat(u1.getCargo(), hasSize(1)); // sprawdzenie czy element zostal dodany przez sprawdzenie rozmiaru listy
 
         assertThat(u1.getCargo().get(0).getName(), equalTo("LNG")); // sprawdzenie czy dodany element ma
-                                                                            // zgodną nazwe
+        // zgodną nazwe
     }
 
     @Test
-    void addCargoByNameShouldThrowExceptionWhenIsUnableToFindObject(){
+    void addCargoByNameShouldThrowExceptionWhenIsUnableToFindObject() {
 
         //given
-        Unit u1 = new Unit( new Coordinates(1,1),10,5); // obiekt, argument metody
+        Unit u1 = new Unit(new Coordinates(1, 1), 10, 5); // obiekt, argument metody
         given(cargoRepository.findCargoByName("LNG")).willReturn(Optional.empty()); // jezeli na mocku wywolam
-                            //metode findCargoByName to ona zwroci empty()
+        //metode findCargoByName to ona zwroci empty()
 
 
         //when
         //then
-        assertThrows(NoSuchElementException.class, () -> unitService.addCargoByName(u1 , "LNG")); // zakladam ze
-                        //wyrzuci taki wyjatek, jezeli na obiekcie klasy mockowanej uzyje metody z takimi parametrami
+        assertThrows(NoSuchElementException.class, () -> unitService.addCargoByName(u1, "LNG")); // zakladam ze
+        //wyrzuci taki wyjatek, jezeli na obiekcie klasy mockowanej uzyje metody z takimi parametrami
 
         then(cargoRepository).should().findCargoByName("LNG"); // sprawdzenie czy metoda wykona sie na mocku
 
         verify(cargoRepository, atLeastOnce()).findCargoByName("LNG"); // sprawdzenie czy na mocku przynajmniej raz
-                                                                        // zostanie wywolana metoda findCargoByName
+        // zostanie wywolana metoda findCargoByName
 
         assertThat(u1.getCargo(), hasSize(0)); // sprawdzenie czy nic nie zostalo dodane do listy
     }
 
+    @Test
+    void getUnitOnMethodShouldReturnCorrectlyReturnFoundedObject() {
+        //given
+        Coordinates coord = new Coordinates(1, 1);
+        Unit u1 = new Unit(coord, 10, 5);
+        given(unitRepository.getUnitByCoordinates(coord)).willReturn(u1);
+
+        //when
+        Unit result = unitService.getUnitOn(coord);
+
+        //then
+        verify(unitRepository, atLeastOnce()).getUnitByCoordinates(coord); // sprawdzenie czy na mocku przynajmniej
+                                // raz zostanie wywolana metoda
+
+        assertThat(result, equalTo(u1)); // sprawdzenie czy metoda zwróci przewidywany obiekt
+
+        assertThat(result.);
+
+    }
 
 
 }

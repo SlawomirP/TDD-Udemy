@@ -19,13 +19,14 @@ public class UnitService {
         }
     }
 
-    Unit getUnitOn(Coordinates coordinates) {
+    Unit getUnitOn(Coordinates coordinates) { // podaje cordy
 
-        Unit u = unitRepository.getUnitByCoordinates(coordinates);
+        Unit u = unitRepository.getUnitByCoordinates(coordinates); // unit u jest rowne unitowi
+                                //pobranemu z pod klucza cord
 
-        if (u == null) {
+        if (u == null) { // jezeli pod tym kluczem nic nie ma to wyrzuci wyjatek
             throw new NoSuchElementException("Unable to find any unit");
-        } else {
+        } else { // jezeli jest to zwroci to co jest
             return u;
         }
     }
