@@ -76,9 +76,9 @@ class UnitServiceTest {
     }
 
     @Test
-    void getUnitOnMethodShouldReturnCorrectlyReturnFoundedObject() {
+    void getUnitOnMethodShouldReturnCorrectlyFoundedObject() {
         //given
-        Coordinates coord = new Coordinates(1, 1);
+        Coordinates coord = new Coordinates(1, 2);
         Unit u1 = new Unit(coord, 10, 5);
         given(unitRepository.getUnitByCoordinates(coord)).willReturn(u1);
 
@@ -91,7 +91,9 @@ class UnitServiceTest {
 
         assertThat(result, equalTo(u1)); // sprawdzenie czy metoda zwróci przewidywany obiekt
 
-        assertThat(result.);
+        assertThat(result.getCoordinates().getX(), equalTo(1)); // sprawdzenie wspolrzednej x
+        assertThat(result.getCoordinates().getY(), equalTo(2)); // sprawdzenie wspolrzednej y
+        assertThat(result.getFuel(), equalTo(10)); // sprawdzenie parametru fuel
 
     }
 
