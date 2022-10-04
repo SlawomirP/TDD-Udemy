@@ -1,6 +1,9 @@
 package pl.slaw.meal;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -8,6 +11,15 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
+
+    MealRepository mealRepository = new MealRepository(); // aby nie tworzyć tego obiektu
+
+    // w kazdym nowym tescie
+    //aby zachować porządek, sprzątamy po każdym teście
+    @BeforeEach
+    void cleanUp() {
+        mealRepository.getAllMeals().clear();
+    }
 
     //najpierw niedziałający test dla dodawania do repozytorium
     // znajduje sie tam tylko taka linijka:
@@ -29,7 +41,7 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
     void shouldBeAbleToAddMealToRepository() {
 
         //given
-        MealRepository mealRepository = new MealRepository();
+//        MealRepository mealRepository = new MealRepository();
         Meal meal = new Meal(10, "Pizza");
 
         //when
@@ -48,7 +60,7 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
     void shouldBeAbleToRemoveMealFromRepositury() {
 
         //given
-        MealRepository mealRepository = new MealRepository();
+//        MealRepository mealRepository = new MealRepository();
         Meal meal = new Meal(10, "Pizza");
         mealRepository.add(meal);
 
@@ -57,8 +69,42 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
 
         //then - mealRepository--pobierz liste meal --> nie--zawiera--meal
         assertThat(mealRepository.getAllMeals(), not(contains(meal)));
+    }
 
+    //test dla metody wyszukiwania po cenie
+    // w given dajemy to co wczesniej, -- test ciagle green
+    //w when chcemy zeby wynikiem dzialania metody byla lista -- red test
+    //dodajemy brakujaca metode -- green test
+    //w then dajemy asercje -- red test
+    // uzupelniamy metode -- green test
+    @Test
+    void shouldBeAbleToFindMealByName() {
 
+        //given
+//        MealRepository mealRepository = new MealRepository();
+        Meal meal = new Meal(10, "Pizza");
+        mealRepository.add(meal);
+
+        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
+        List<Meal> result = mealRepository.findByName("Pizza");
+
+        //then
+        assertThat(result.size(), is(1));
+    }
+
+    //znajdowanie posiłku po cenie
+    @Test
+    void shouldBeAbleFindMealByPrice() {
+//given
+//        MealRepository mealRepository = new MealRepository();
+        Meal meal = new Meal(10, "Pizza");
+        mealRepository.add(meal);
+
+        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
+        List<Meal> result = mealRepository.findByPrice(10);
+
+        //then - dodanie asercji
+        assertThat(result.size(), is(1));
     }
 
 

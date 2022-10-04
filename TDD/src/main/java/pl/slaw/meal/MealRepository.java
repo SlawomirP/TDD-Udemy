@@ -2,6 +2,7 @@ package pl.slaw.meal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MealRepository {
 
@@ -17,5 +18,17 @@ public class MealRepository {
 
     public void delete(Meal meal) {
         meals.remove(meal);
+    }
+
+    public List<Meal> findByName(String name) {
+        return meals.stream()
+                .filter(meal -> meal.getName().equals(name))
+                .collect(Collectors.toList());
+    }
+
+    public List<Meal> findByPrice(int mealPrice) {
+        return meals.stream()
+                .filter(meal -> meal.getPrice() == mealPrice)
+                .toList();
     }
 }
