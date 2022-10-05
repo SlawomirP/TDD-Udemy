@@ -7,6 +7,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -93,19 +94,19 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
 //    }
 
     //znajdowanie posiłku po cenie
-    @Test
-    void shouldBeAbleFindMealByPrice() {
-//given
-//        MealRepository mealRepository = new MealRepository();
-        Meal meal = new Meal(10, "Pizza");
-        mealRepository.add(meal);
-
-        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
-        List<Meal> result = mealRepository.findByPrice(10);
-
-        //then - dodanie asercji
-        assertThat(result.size(), is(1));
-    }
+//    @Test
+//    void shouldBeAbleFindMealByPrice() {
+////given
+////        MealRepository mealRepository = new MealRepository();
+//        Meal meal = new Meal(10, "Pizza");
+//        mealRepository.add(meal);
+//
+//        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
+//        List<Meal> result = mealRepository.findByPrice(10);
+//
+//        //then - dodanie asercji
+//        assertThat(result.size(), is(1));
+//    }
 
     //rozszerzanie funkcjonalności - test do wyszukiwania po nazwie, dodamy dodatkowy
     //parametr do metody
@@ -142,6 +143,72 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
         //then
         assertThat(result.size(), is(2));
 
+    }
+
+    //homework tests
+    @Test
+    void shouldBeAbleFindMealByPriceConditionLower() {
+//given
+//        MealRepository mealRepository = new MealRepository();
+        Meal meal1 = new Meal(9, "Pizza");
+        Meal meal2 = new Meal(10, "HotDog");
+        Meal meal3 = new Meal(11, "Burger");
+        mealRepository.add(meal1);
+        mealRepository.add(meal2);
+        mealRepository.add(meal3);
+
+        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
+        //dodalem drugi parametr Condition.LOWER - test red
+        //stworzylem enuma Condition z trzema polami LOWER, EQULS, HIGHER - green test
+        //dodalem pierwsza asercje -> red test, uzupelnilem logike metody --> green test
+        List<Meal> result = mealRepository.findByPrice(10, Condition.LOWER);
+
+        //then
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0), equalTo(meal1));
+    }
+    @Test
+    void shouldBeAbleFindMealByPriceConditionEqual() {
+//given
+//        MealRepository mealRepository = new MealRepository();
+        Meal meal1 = new Meal(9, "Pizza");
+        Meal meal2 = new Meal(10, "HotDog");
+        Meal meal3 = new Meal(11, "Burger");
+        mealRepository.add(meal1);
+        mealRepository.add(meal2);
+        mealRepository.add(meal3);
+
+        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
+        //dodalem drugi parametr Condition.EQUAL --> green test
+        //dodalem asercje -> red test, uzupelnilem logike w metodzie -> green
+        List<Meal> result = mealRepository.findByPrice(10, Condition.EQUAL);
+
+        //then
+        assertThat(result.get(0), equalTo(meal2));
+        assertThat(result.size(), is(1));
+    }
+    @Test
+    void shouldBeAbleFindMealByPriceConditionHigher() {
+//given
+//        MealRepository mealRepository = new MealRepository();
+        Meal meal1 = new Meal(9, "Pizza");
+        Meal meal2 = new Meal(10, "HotDog");
+        Meal meal3 = new Meal(11, "Burger");
+        Meal meal4 = new Meal(12, "Sandwich");
+        mealRepository.add(meal1);
+        mealRepository.add(meal2);
+        mealRepository.add(meal3);
+        mealRepository.add(meal4);
+
+        //when -- po wywolaniu metody, wyniki powinny byc zwrocone w postaci listy
+        //dodalem drugi parametr Condition.HIGHER --> green test
+        //dodalem asercje -> red test, uzupelnilem logike w metodzie -> green
+        List<Meal> result = mealRepository.findByPrice(10, Condition.HIGHER);
+
+        //then
+        assertThat(result.get(0), equalTo(meal3));
+        assertThat(result.get(1), equalTo(meal4));
+        assertThat(result.size(), is(2));
     }
 
 }

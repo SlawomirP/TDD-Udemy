@@ -21,20 +21,36 @@ public class MealRepository {
     }
 
     public List<Meal> findByName(String name, boolean exactMatch) {
-        if(exactMatch){return meals.stream()
-                .filter(meal -> meal.getName().equals(name))
-                .collect(Collectors.toList());
+        if (exactMatch) {
+            return meals.stream()
+                    .filter(meal -> meal.getName().equals(name))
+                    .collect(Collectors.toList());
         } else {
             return meals.stream()
                     .filter(meal -> meal.getName().startsWith(name))
                     .collect(Collectors.toList());
         }
-
     }
 
-    public List<Meal> findByPrice(int mealPrice) {
-        return meals.stream()
-                .filter(meal -> meal.getPrice() == mealPrice)
-                .toList();
+    public List<Meal> findByPrice(int mealPrice, Condition priceCondition) {
+        List<Meal> mealsList = new ArrayList<>();
+        switch (priceCondition) {
+            case LOWER -> {
+                mealsList = meals.stream()
+                        .filter(meal -> meal.getPrice() < mealPrice)
+                        .collect(Collectors.toList());
+            }
+            case EQUAL -> {
+                mealsList = meals.stream()
+                        .filter(meal -> meal.getPrice() == mealPrice)
+                        .collect(Collectors.toList());
+            }
+            case HIGHER -> {
+                mealsList = meals.stream()
+                        .filter(meal -> meal.getPrice() > mealPrice)
+                        .collect(Collectors.toList());
+            }
+        }
+        return mealsList;
     }
 }
