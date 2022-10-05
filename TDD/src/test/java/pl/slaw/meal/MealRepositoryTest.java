@@ -145,7 +145,7 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
 
     }
 
-    //homework tests
+    //homework tests - method findMealByPrice
     @Test
     void shouldBeAbleFindMealByPriceConditionLower() {
 //given
@@ -210,5 +210,119 @@ public class MealRepositoryTest { // repozytorium Meal tworzone za pomocą TDD
         assertThat(result.get(1), equalTo(meal4));
         assertThat(result.size(), is(2));
     }
+
+    // method find ---------------------------
+    @Test
+    void findMethodSholudFindMealByExactNameAndBelowPrice(){
+        //utworzenie obiektow meal i dodanie ich do mealRepository --> green
+        //utworzenie sekcji when -> red, stworzenie metody w gl klasie -> green
+        //stworzenie assercji -> red, dodanie logiki w metodzie -> green
+
+        //given
+        //mealrepository upp
+        Meal meal2 = new Meal(10, "HotDog");
+        mealRepository.add(meal2);
+
+
+        //when
+        List<Meal> result = mealRepository.find("HotDog", true, 11, Condition.LOWER);
+
+        //then
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0), equalTo(meal2));
+    }
+    @Test
+    void findMethodSholudFindMealByExactNameAndEqualPrice(){
+
+        //given
+        //mealrepository upp
+
+        Meal meal2 = new Meal(10, "HotDog");
+        mealRepository.add(meal2);
+
+        //when
+        List<Meal> result = mealRepository.find("HotDog", true, 10, Condition.EQUAL);
+
+        //then
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0), equalTo(meal2));
+    }
+
+    @Test
+    void findMethodSholudFindMealByExactNameAndHigherPrice(){
+
+        //given
+        //mealrepository upp
+        Meal meal2 = new Meal(10, "HotDog");
+
+        mealRepository.add(meal2);
+
+        //when
+        List<Meal> result = mealRepository.find("HotDog", true, 9, Condition.HIGHER);
+
+        //then
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0), equalTo(meal2));
+    }
+
+    @Test
+    void findMethodSholudFindMealNotByExactNameAndLowerPrice(){
+
+        //given
+        //mealrepository upp
+        Meal meal2 = new Meal(7, "HotDog");
+        Meal meal5 = new Meal(8, "HotDog - spicy");
+        mealRepository.add(meal2);
+        mealRepository.add(meal5);
+
+        //when
+        List<Meal> result = mealRepository.find("ho", false, 9, Condition.LOWER);
+
+        //then
+        assertThat(result.size(), is(2));
+        assertThat(result.get(0), equalTo(meal2));
+        assertThat(result.get(1), equalTo(meal5));
+    }
+
+    @Test
+    void findMethodSholudFindMealNotByExactNameAndEqualPrice(){
+
+        //given
+        //mealrepository upp
+        Meal meal2 = new Meal(7, "HotDog");
+        Meal meal5 = new Meal(9, "HotDog - spicy");
+        mealRepository.add(meal2);
+        mealRepository.add(meal5);
+
+        //when
+        List<Meal> result = mealRepository.find("ho", false, 9, Condition.EQUAL);
+
+        //then
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0), equalTo(meal5));
+    }
+    @Test
+    void findMethodSholudFindMealNotByExactNameAndHigherPrice(){
+
+        //given
+        //mealrepository upp
+        Meal meal2 = new Meal(7, "HotDog");
+        Meal meal5 = new Meal(9, "HotDog - spicy");
+        mealRepository.add(meal2);
+        mealRepository.add(meal5);
+
+        //when
+        List<Meal> result = mealRepository.find("ho", false, 8, Condition.HIGHER);
+
+        //then
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0), equalTo(meal5));
+    }
+
+
+
+
+
+
 
 }

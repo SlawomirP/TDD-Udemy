@@ -53,4 +53,52 @@ public class MealRepository {
         }
         return mealsList;
     }
+
+    public List<Meal> find(String mealName, boolean byExact, int price, Condition priceCondition) {
+        List<Meal> list = new ArrayList<>();
+        if (byExact) {
+            switch (priceCondition) {
+                case LOWER -> {
+                    list = meals.stream()
+                            .filter(meal -> meal.getName().equals(mealName))
+                            .filter(meal -> meal.getPrice() < price)
+                            .collect(Collectors.toList());
+                }
+                case EQUAL -> {
+                    list = meals.stream()
+                            .filter(meal -> meal.getName().equals(mealName))
+                            .filter(meal -> meal.getPrice() == price)
+                            .collect(Collectors.toList());
+                }
+                case HIGHER -> {
+                    list = meals.stream()
+                            .filter(meal -> meal.getName().equals(mealName))
+                            .filter(meal -> meal.getPrice() > price)
+                            .collect(Collectors.toList());
+                }
+            }
+        } else {
+            switch (priceCondition) {
+                case LOWER -> {
+                    list = meals.stream()
+                            .filter(meal -> meal.getName().toLowerCase().startsWith(mealName))
+                            .filter(meal -> meal.getPrice() < price)
+                            .collect(Collectors.toList());
+                }
+                case EQUAL -> {
+                    list = meals.stream()
+                            .filter(meal -> meal.getName().toLowerCase().startsWith(mealName))
+                            .filter(meal -> meal.getPrice() == price)
+                            .collect(Collectors.toList());
+                }
+                case HIGHER -> {
+                    list = meals.stream()
+                            .filter(meal -> meal.getName().toLowerCase().startsWith(mealName))
+                            .filter(meal -> meal.getPrice() > price)
+                            .collect(Collectors.toList());
+                }
+            }
+        }
+        return list;
+    }
 }
